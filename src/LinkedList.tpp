@@ -147,25 +147,29 @@ void LinkedList<T>::InsertAt(T item, int index) {
     }
 
     if (index == 0) {
-        Prepend(item);
+        this->Prepend(item);
         return;
     }
 
     if (index == this->size) {
-        Append(item);
+        this->Append(item);
         return;
     }
 
-    Node* curr = this->head;
-    for (int i = 0; i < index; i++){
-        curr = curr->next;
+    Node* newNode = new Node{item, nullptr, nullptr};
+    
+    Node* current = this->head;
+    for (int i = 0; i < index; i++) {
+        current = current->next;
     }
 
-    Node* new_node = new Node{item, curr->next, curr};
-    curr->next = new_node;
-    if (new_node->next) {
-        new_node->next->prev = new_node;
-    }
+    Node* previous = current->prev;
+
+    previous->next = newNode;
+    newNode->prev = previous;
+
+    newNode->next = current;
+    current->prev = newNode;
 
     this->size++;
 }

@@ -36,8 +36,8 @@ if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
     # 2. Исполняемый файл для тестов (test)
     # Название изменено на test.cpp, как было в твоем Makefile
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test.cpp")
-        add_executable(test test.cpp)
-        target_link_libraries(test PRIVATE sequence_lib)
+        add_executable(run_test test.cpp)
+        target_link_libraries(run_test PRIVATE sequence_lib)
 
         # Интеграция автоматических тестов в систему CMake (ctest)
         enable_testing()

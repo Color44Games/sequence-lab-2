@@ -13,7 +13,7 @@ public:
     ListSequence();
     ListSequence(T* items, int count);
     ListSequence(const ListSequence<T>& list);
-    ListSequence(ListSequence<T> &&other) noexcept {};
+    ListSequence(ListSequence<T> &&other) noexcept = default;
     ~ListSequence();
 
     // Sequence override
@@ -31,7 +31,7 @@ public:
     IEnumerator<T>* GetEnumerator() const override;
 
     // Оператор
-    ListSequence<T>& operator=(ListSequence<T> &&other) noexcept {};
+    ListSequence<T>& operator=(ListSequence<T> &&other) noexcept = default;
 
 protected:
     virtual ListSequence<T>* Instance() = 0;

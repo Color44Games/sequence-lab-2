@@ -43,7 +43,7 @@ public:
     explicit ArraySequence(int count);
     ArraySequence(T* items, int count);
     ArraySequence(const ArraySequence<T> &other);
-    ArraySequence(ArraySequence<T> &&other) noexcept {};
+    ArraySequence(ArraySequence<T> &&other) noexcept = default;
     ~ArraySequence();
 
     // Sequence override
@@ -62,7 +62,7 @@ public:
     IEnumerator<T>* GetEnumerator() const override;
 
     // Оператор
-    ArraySequence<T>& operator=(ArraySequence<T> &&other) noexcept {};
+    ArraySequence<T>& operator=(ArraySequence<T> &&other) noexcept = default;
 
 protected:
     virtual ArraySequence<T>* Instance() = 0;

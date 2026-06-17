@@ -47,12 +47,12 @@ public:
     MutableListSequence(T* items, int count);
     MutableListSequence(const ListSequence<T>& other);
     MutableListSequence(const MutableListSequence<T>& other);
-    MutableListSequence(MutableListSequence<T> &&other) noexcept {};
+    MutableListSequence(MutableListSequence<T> &&other) noexcept = default;
     ~MutableListSequence();
 
     // Операторы
     MutableListSequence<T>& operator=(const MutableListSequence<T>& other);
-    MutableListSequence<T>& operator=(MutableListSequence<T> &&other) noexcept {};
+    MutableListSequence<T>& operator=(MutableListSequence<T> &&other) noexcept = default;
     bool operator==(const MutableListSequence<T>& other) const;
     bool operator!=(const MutableListSequence<T>& other) const;
     T& operator[](int index);

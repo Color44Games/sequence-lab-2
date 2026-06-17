@@ -48,12 +48,12 @@ public:
     MutableArraySequence(T* items, int count);
     MutableArraySequence(const ArraySequence<T>& other);
     MutableArraySequence(const MutableArraySequence<T>& other);
-    MutableArraySequence(MutableArraySequence<T> &&other) noexcept {};
+    MutableArraySequence(MutableArraySequence<T> &&other) noexcept = default;
     ~MutableArraySequence();
 
     // Операторы
     MutableArraySequence<T>& operator=(const MutableArraySequence<T>& other);
-    MutableArraySequence<T>& operator=(MutableArraySequence<T> &&other) noexcept {};
+    MutableArraySequence<T>& operator=(MutableArraySequence<T> &&other) noexcept = default;
     bool operator==(const MutableArraySequence<T>& other) const;
     bool operator!=(const MutableArraySequence<T>& other) const;
     T& operator[](int index);

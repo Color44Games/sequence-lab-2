@@ -48,11 +48,11 @@ public:
     ImmutableArraySequence(T* items, int count);
     ImmutableArraySequence(const ArraySequence<T>& other);
     ImmutableArraySequence(const ImmutableArraySequence<T>& other);
-    ImmutableArraySequence(ImmutableArraySequence<T> &&other) noexcept {};
+    ImmutableArraySequence(ImmutableArraySequence<T> &&other) noexcept = default;
     ~ImmutableArraySequence();
 
     ImmutableArraySequence<T>& operator=(const ImmutableArraySequence<T>& other);
-    ImmutableArraySequence<T>& operator=(ImmutableArraySequence<T> &&other) noexcept {};
+    ImmutableArraySequence<T>& operator=(ImmutableArraySequence<T> &&other) noexcept = default;
     bool operator==(const ImmutableArraySequence<T>& other) const;
     bool operator!=(const ImmutableArraySequence<T>& other) const;
     const T& operator[](int index) const override;
@@ -64,7 +64,7 @@ public:
         return new ImmutableArraySequence<T>();
     }
 
-    Sequence<T>* Clone() const override {
+    Sequence<T>* Copy() const override {
         return new ImmutableArraySequence<T>(*this);
     }
 };
