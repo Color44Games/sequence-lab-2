@@ -1,7 +1,7 @@
 #pragma once
 
 template <class T>
-class IEnumerator{
+class IEnumerator {
 public:
     virtual ~IEnumerator() {}
 

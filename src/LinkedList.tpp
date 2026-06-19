@@ -21,8 +21,8 @@ LinkedList<T>::LinkedList(T* items, int count) : LinkedList() {
 }
 
 template <class T>
-LinkedList<T>::LinkedList(const LinkedList<T> &list) : LinkedList() {
-    Node* curr = list.head;
+LinkedList<T>::LinkedList(const LinkedList<T>& other) : LinkedList() {
+    Node* curr = other.head;
     while (curr != nullptr) {
         this->Append(curr->val);
         curr = curr->next;
@@ -30,7 +30,7 @@ LinkedList<T>::LinkedList(const LinkedList<T> &list) : LinkedList() {
 }
 
 template <class T>
-LinkedList<T>::LinkedList(LinkedList<T> &&other) noexcept : size(other.size), head(other.head), tail(other.tail) {
+LinkedList<T>::LinkedList(LinkedList<T>&& other) noexcept : size(other.size), head(other.head), tail(other.tail) {
     other.size = 0;
     other.head = nullptr;
     other.tail = nullptr;
@@ -66,7 +66,7 @@ const T& LinkedList<T>::GetLast() const {
 template <class T>
 const T& LinkedList<T>::Get(int index) const {
     if (index < 0 || index >= this->size) {
-        throw ("Get error: index out of range");
+        throw("Get error: index out of range");
     }
     Node* curr = this->head;
     for (int i = 0; i < index; i++) {
@@ -87,12 +87,12 @@ LinkedList<T>* LinkedList<T>::GetSubList(int start_index, int end_index) const {
 
     LinkedList<T>* sub_list = new LinkedList<T>();
     Node* curr = this->head;
-    
-    for(int i = 0; i < start_index; i++) {
+
+    for (int i = 0; i < start_index; i++) {
         curr = curr->next;
     }
 
-    for (int i = start_index; i < end_index; i ++) {
+    for (int i = start_index; i < end_index; i++) {
         sub_list->Append(curr->val);
         curr = curr->next;
     }
@@ -126,8 +126,7 @@ void LinkedList<T>::Append(T item) {
     if (this->size == 0) {
         this->head = new_node;
         this->tail = new_node;
-    }
-    else {
+    } else {
         this->tail->next = new_node;
         this->tail = new_node;
     }
@@ -137,11 +136,10 @@ void LinkedList<T>::Append(T item) {
 template <class T>
 void LinkedList<T>::Prepend(T item) {
     Node* new_node = new Node{item, this->head, nullptr};
-    if (this->size == 0){
+    if (this->size == 0) {
         this->head = new_node;
         this->tail = new_node;
-    }
-    else {
+    } else {
         this->head->prev = new_node;
         this->head = new_node;
     }
@@ -165,7 +163,7 @@ void LinkedList<T>::InsertAt(T item, int index) {
     }
 
     Node* newNode = new Node{item, nullptr, nullptr};
-    
+
     Node* current = this->head;
     for (int i = 0; i < index; i++) {
         current = current->next;
@@ -201,15 +199,13 @@ T LinkedList<T>::RemoveAt(int index) {
 
     if (curr->prev != nullptr) {
         curr->prev->next = curr->next;
-    }
-    else {
+    } else {
         this->head = curr->next;
     }
 
     if (curr->next != nullptr) {
         curr->next->prev = curr->prev;
-    }
-    else {
+    } else {
         this->tail = curr;
     }
 
@@ -228,29 +224,24 @@ LinkedList<T>* LinkedList<T>::Concat(const LinkedList<T>& list) {
             new_list->Append(curr->val);
             curr = curr->next;
         }
-    }  
+    }
     return new_list;
 }
 
 // Операторы
 template <class T>
-LinkedList<T>& LinkedList<T>::operator=(const LinkedList<T> &other) {
+LinkedList<T>& LinkedList<T>::operator=(const LinkedList<T>& other) {
     if (this != &other) {
-        LinkedList<T> temp = new LinkedList();
-        Node* curr = other->head;
-        while (curr != nullptr) {
-            temp.Append(curr->val);
-            curr = curr->next;
-        }
+        LinkedList<T> temp(other);
 
-        curr = this->head;
+        Node* curr = this->head;
         while (curr != nullptr) {
             Node* next = curr->next;
             delete curr;
             curr = next;
         }
         this->head = nullptr;
-        this->tale = nullptr;
+        this->tail = nullptr;
         size = 0;
 
         this->head = temp.head;
@@ -265,18 +256,18 @@ LinkedList<T>& LinkedList<T>::operator=(const LinkedList<T> &other) {
 }
 
 template <class T>
-LinkedList<T> &LinkedList<T>::operator=(LinkedList<T> &&other) noexcept {
+LinkedList<T>& LinkedList<T>::operator=(LinkedList<T>&& other) noexcept {
     if (this != &other) {
-        Node *curr = this->head;
+        Node* curr = this->head;
         while (curr != nullptr) {
-            Node *next = curr->next;
+            Node* next = curr->next;
             delete curr;
             curr = next;
         }
 
-        head = other.head;
-        tail = other.tail;
-        size = other.size;
+        this->head = other.head;
+        this->tail = other.tail;
+        this->size = other.size;
 
         other.head = nullptr;
         other.tail = nullptr;

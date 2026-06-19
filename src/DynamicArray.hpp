@@ -1,8 +1,10 @@
 #pragma once
 
 #include <cstddef>
+
 #include "Exceptions.hpp"
 #include "IEnumerable.hpp"
+
 
 template <class T>
 class DynamicArray : public IEnumerable<T> {
@@ -11,16 +13,16 @@ private:
     int size;
 
 public:
-    class Enumerator : public IEnumerator<T>{
+    class Enumerator : public IEnumerator<T> {
     private:
         const DynamicArray<T>* arr;
         int curr_index;
 
     public:
         explicit Enumerator(const DynamicArray<T>* ptr) : arr(ptr), curr_index(-1) {}
-        
+
         bool MoveNext() override {
-            if (this->curr_index + 1 < this->arr->GetSize()){
+            if (this->curr_index + 1 < this->arr->GetSize()) {
                 this->curr_index++;
                 return true;
             }
@@ -43,8 +45,8 @@ public:
     DynamicArray();
     explicit DynamicArray(int count);
     DynamicArray(T* items, int count);
-    DynamicArray(const DynamicArray &other);
-    DynamicArray(DynamicArray &&other) noexcept;
+    DynamicArray(const DynamicArray& other);
+    DynamicArray(DynamicArray&& other) noexcept;
     ~DynamicArray();
 
     // Геттеры, сеттеры и resize
@@ -53,10 +55,10 @@ public:
     int GetSize() const;
     IEnumerator<T>* GetEnumerator() const override;
     void Resize(int new_size);
-    
+
     // Операторы
-    DynamicArray<T>& operator=(const DynamicArray<T> &other);
-    DynamicArray<T>& operator=(DynamicArray<T> &&other) noexcept;
+    DynamicArray<T>& operator=(const DynamicArray<T>& other);
+    DynamicArray<T>& operator=(DynamicArray<T>&& other) noexcept;
     T& operator[](int index);
     const T& operator[](int index) const;
 };

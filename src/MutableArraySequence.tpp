@@ -13,10 +13,10 @@ template <class T>
 MutableArraySequence<T>::MutableArraySequence(T* items, int count) : ArraySequence<T>(items, count) {}
 
 template <class T>
-MutableArraySequence<T>::MutableArraySequence(const ArraySequence<T>& other) : ArraySequence<T> (other) {}
+MutableArraySequence<T>::MutableArraySequence(const ArraySequence<T>& other) : ArraySequence<T>(other) {}
 
 template <class T>
-MutableArraySequence<T>::MutableArraySequence(const MutableArraySequence<T>& other) : ArraySequence<T> (other) {}
+MutableArraySequence<T>::MutableArraySequence(const MutableArraySequence<T>& other) : ArraySequence<T>(other) {}
 
 template <class T>
 MutableArraySequence<T>::~MutableArraySequence() {}
@@ -29,25 +29,6 @@ MutableArraySequence<T>& MutableArraySequence<T>::operator=(const MutableArraySe
         this->data = other.data;
     }
     return *this;
-}
-
-template <class T>
-bool MutableArraySequence<T>::operator==(const MutableArraySequence<T>& other) const {
-    if (this->GetLength() != other.GetLength()) {
-        return false;
-    }
-
-    for (int i = 0; i < this->GetLength(); i++) {
-        if (this->Get(i) != other.Get(i)) {
-            return false;
-        }
-    }
-    return true;
-}
-
-template <class T>
-bool MutableArraySequence<T>::operator!=(const MutableArraySequence<T>& other) const {
-    return !(*this == other);
 }
 
 template <class T>

@@ -5,8 +5,8 @@
 template <class T>
 class MutableArraySequence : public ArraySequence<T> {
 protected:
-    ArraySequence<T>* Instance() override { 
-        return this; 
+    ArraySequence<T>* Instance() override {
+        return this;
     }
 
 public:
@@ -48,22 +48,20 @@ public:
     MutableArraySequence(T* items, int count);
     MutableArraySequence(const ArraySequence<T>& other);
     MutableArraySequence(const MutableArraySequence<T>& other);
-    MutableArraySequence(MutableArraySequence<T> &&other) noexcept = default;
+    MutableArraySequence(MutableArraySequence<T>&& other) noexcept = default;
     ~MutableArraySequence();
 
     // Операторы
     MutableArraySequence<T>& operator=(const MutableArraySequence<T>& other);
-    MutableArraySequence<T>& operator=(MutableArraySequence<T> &&other) noexcept = default;
-    bool operator==(const MutableArraySequence<T>& other) const;
-    bool operator!=(const MutableArraySequence<T>& other) const;
+    MutableArraySequence<T>& operator=(MutableArraySequence<T>&& other) noexcept = default;
     T& operator[](int index);
     const T& operator[](int index) const override;
     MutableArraySequence<T> operator+(const MutableArraySequence<T>& other) const;
     MutableArraySequence<T>& operator+=(const T& value);
     MutableArraySequence<T>& operator+=(const MutableArraySequence<T>& other);
 
-    Sequence<T>* CreateEmpty() const override { 
-        return new MutableArraySequence<T>(); 
+    Sequence<T>* CreateEmpty() const override {
+        return new MutableArraySequence<T>();
     }
 
     Sequence<T>* Copy() const override {

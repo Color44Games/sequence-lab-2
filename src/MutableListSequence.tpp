@@ -9,10 +9,10 @@ template <class T>
 MutableListSequence<T>::MutableListSequence(T* items, int count) : ListSequence<T>(items, count) {}
 
 template <class T>
-MutableListSequence<T>::MutableListSequence(const ListSequence<T>& other) : ListSequence<T> (other) {}
+MutableListSequence<T>::MutableListSequence(const ListSequence<T>& other) : ListSequence<T>(other) {}
 
 template <class T>
-MutableListSequence<T>::MutableListSequence(const MutableListSequence<T>& other) : ListSequence<T> (other) {}
+MutableListSequence<T>::MutableListSequence(const MutableListSequence<T>& other) : ListSequence<T>(other) {}
 
 template <class T>
 MutableListSequence<T>::~MutableListSequence() {}
@@ -23,25 +23,6 @@ MutableListSequence<T>& MutableListSequence<T>::operator=(const MutableListSeque
         this->data = other.data;
     }
     return *this;
-}
-
-template <class T>
-bool MutableListSequence<T>::operator==(const MutableListSequence<T>& other) const {
-    if (this->GetLength() != other.GetLength()) {
-        return false;
-    }
-
-    for (int i = 0; i < this->GetLength(); i++) {
-        if (this->Get(i) != other.Get(i)) {
-            return false;
-        }
-    }
-    return true;
-}
-
-template <class T>
-bool MutableListSequence<T>::operator!=(const MutableListSequence<T>& other) const {
-    return !(*this == other);
 }
 
 template <class T>
@@ -60,7 +41,7 @@ T& MutableListSequence<T>::operator[](int index) {
 }
 
 template <class T>
-const T &MutableListSequence<T>::operator[](int index) const {
+const T& MutableListSequence<T>::operator[](int index) const {
     if (index < 0 || index >= this->GetLength()) {
         throw IndexOutOfRange("operator[] error: index out of range");
     }

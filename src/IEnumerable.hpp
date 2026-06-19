@@ -3,7 +3,7 @@
 #include "IEnumerator.hpp"
 
 template <class T>
-class IEnumerable{
+class IEnumerable {
 public:
     virtual ~IEnumerable() {}
 

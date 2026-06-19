@@ -46,7 +46,7 @@ Sequence<T>* ListSequence<T>::Prepend(T item) {
     return Instance()->PrependInternal(item);
 }
 
-template <class T> 
+template <class T>
 Sequence<T>* ListSequence<T>::InsertAt(T item, int index) {
     return Instance()->InsertAtInternal(item, index);
 }
@@ -59,19 +59,19 @@ IEnumerator<T>* ListSequence<T>::GetEnumerator() const {
 
 // Внутренние методы
 template <class T>
-ListSequence<T>* ListSequence<T>::AppendInternal(T item) { 
+ListSequence<T>* ListSequence<T>::AppendInternal(T item) {
     data.Append(item);
     return this;
- }
-
-template <class T>
-ListSequence<T>* ListSequence<T>::PrependInternal(T item) { 
-    data.Prepend(item); 
-    return this; 
 }
 
 template <class T>
-ListSequence<T>* ListSequence<T>::InsertAtInternal(T item, int index) { 
-    data.InsertAt(item, index); 
-    return this; 
+ListSequence<T>* ListSequence<T>::PrependInternal(T item) {
+    data.Prepend(item);
+    return this;
+}
+
+template <class T>
+ListSequence<T>* ListSequence<T>::InsertAtInternal(T item, int index) {
+    data.InsertAt(item, index);
+    return this;
 }

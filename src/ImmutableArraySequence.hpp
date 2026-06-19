@@ -5,8 +5,8 @@
 template <class T>
 class ImmutableArraySequence : public ArraySequence<T> {
 protected:
-    ArraySequence<T>* Instance() override { 
-        return new ImmutableArraySequence<T>(*this); 
+    ArraySequence<T>* Instance() override {
+        return new ImmutableArraySequence<T>(*this);
     }
 
 public:
@@ -18,7 +18,7 @@ public:
         Builder() {
             this->seq = new ImmutableArraySequence();
         }
-        
+
         virtual ~Builder() {
             delete this->seq;
         }
@@ -42,24 +42,26 @@ public:
         return new Builder();
     }
 
-    // Операторы
+    // Конструкторы и деструктор
     ImmutableArraySequence();
     explicit ImmutableArraySequence(int count);
     ImmutableArraySequence(T* items, int count);
     ImmutableArraySequence(const ArraySequence<T>& other);
     ImmutableArraySequence(const ImmutableArraySequence<T>& other);
-    ImmutableArraySequence(ImmutableArraySequence<T> &&other) noexcept = default;
+    ImmutableArraySequence(ImmutableArraySequence<T>&& other) noexcept = default;
     ~ImmutableArraySequence();
 
-    ImmutableArraySequence<T>& operator=(const ImmutableArraySequence<T>& other);
-    ImmutableArraySequence<T>& operator=(ImmutableArraySequence<T> &&other) noexcept = default;
-    bool operator==(const ImmutableArraySequence<T>& other) const;
-    bool operator!=(const ImmutableArraySequence<T>& other) const;
+    // Операторы (Разрешенные)
     const T& operator[](int index) const override;
     ImmutableArraySequence<T> operator+(const ImmutableArraySequence<T>& other) const;
-    ImmutableArraySequence<T>& operator+=(const T& value);
-    ImmutableArraySequence<T>& operator+=(const ImmutableArraySequence<T>& value);
 
+    // Операторы (Запрещенные)
+    ImmutableArraySequence<T>& operator=(const ImmutableArraySequence<T>& other) = delete;
+    ImmutableArraySequence<T>& operator=(ImmutableArraySequence<T>&& other) noexcept = delete;
+    ImmutableArraySequence<T>& operator+=(const T& value) = delete;
+    ImmutableArraySequence<T>& operator+=(const ImmutableArraySequence<T>& value) = delete;
+
+    // Collection override
     Sequence<T>* CreateEmpty() const override {
         return new ImmutableArraySequence<T>();
     }

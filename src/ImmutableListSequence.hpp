@@ -5,8 +5,8 @@
 template <class T>
 class ImmutableListSequence : public ListSequence<T> {
 protected:
-    ListSequence<T>* Instance() override { 
-        return new ImmutableListSequence<T>(*this); 
+    ListSequence<T>* Instance() override {
+        return new ImmutableListSequence<T>(*this);
     }
 
 public:
@@ -18,7 +18,7 @@ public:
         Builder() {
             seq = new ImmutableListSequence();
         }
-        
+
         virtual ~Builder() {
             delete seq;
         }
@@ -41,27 +41,28 @@ public:
     ISequenceBuilder<T>* CreateBuilder() const override {
         return new Builder();
     }
-    
+
     // Конструкторы и деструктор
     ImmutableListSequence();
     ImmutableListSequence(T* items, int count);
     ImmutableListSequence(const ListSequence<T>& other);
     ImmutableListSequence(const ImmutableListSequence<T>& other);
-    ImmutableListSequence(ImmutableListSequence<T> &&other) noexcept = default;
+    ImmutableListSequence(ImmutableListSequence<T>&& other) noexcept = default;
     ~ImmutableListSequence();
 
-    // Операторы
-    ImmutableListSequence<T>& operator=(const ImmutableListSequence<T>& other);
-    ImmutableListSequence<T>& operator=(ImmutableListSequence<T> &&other) noexcept = default;
-    bool operator==(const ImmutableListSequence<T>& other) const;
-    bool operator!=(const ImmutableListSequence<T>& other) const;
+    // Операторы (Разрешенные)
     const T& operator[](int index) const override;
     ImmutableListSequence<T> operator+(const ImmutableListSequence<T>& other) const;
-    ImmutableListSequence<T>& operator+=(const T& value);
-    ImmutableListSequence<T>& operator+=(const ImmutableListSequence<T>& other);
 
-    Sequence<T>* CreateEmpty() const override { 
-        return new ImmutableListSequence<T>(); 
+    // Операторы (Запрещенные)
+    ImmutableListSequence<T>& operator=(const ImmutableListSequence<T>& other) = delete;
+    ImmutableListSequence<T>& operator=(ImmutableListSequence<T>&& other) noexcept = delete;
+    ImmutableListSequence<T>& operator+=(const T& value) = delete;
+    ImmutableListSequence<T>& operator+=(const ImmutableListSequence<T>& other) = delete;
+
+    // Collection override
+    Sequence<T>* CreateEmpty() const override {
+        return new ImmutableListSequence<T>();
     }
 
     Sequence<T>* Copy() const override {

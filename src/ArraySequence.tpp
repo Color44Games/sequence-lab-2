@@ -19,7 +19,7 @@ template <class T>
 ArraySequence<T>::ArraySequence(T* items, int count) : size(count), data(items, count) {}
 
 template <class T>
-ArraySequence<T>::ArraySequence(const ArraySequence &other) : size(other.size), data(other.data) {}
+ArraySequence<T>::ArraySequence(const ArraySequence& other) : size(other.size), data(other.data) {}
 
 template <class T>
 ArraySequence<T>::~ArraySequence() {}
@@ -110,7 +110,7 @@ ArraySequence<T>* ArraySequence<T>::PrependInternal(T item) {
 }
 
 template <class T>
-ArraySequence<T> *ArraySequence<T>::InsertAtInternal(T item, int index) {
+ArraySequence<T>* ArraySequence<T>::InsertAtInternal(T item, int index) {
     if (index < 0 || index > this->data.GetSize()) {
         throw IndexOutOfRange("InsertAt error: index out of range");
     }
@@ -118,7 +118,7 @@ ArraySequence<T> *ArraySequence<T>::InsertAtInternal(T item, int index) {
     if (this->data.GetSize() <= this->size) {
         this->data.Resize(this->size * 2);
     }
-    
+
     this->size++;
     for (int i = this->size - 1; i > index; i--) {
         this->data.Set(i, this->data.Get(i - 1));

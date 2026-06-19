@@ -6,8 +6,8 @@
 #include "ISequenceBuilder.hpp"
 
 template <class T>
-class Sequence : public ICollection<T>, public IEnumerable<T>{
-public: 
+class Sequence : public ICollection<T>, public IEnumerable<T> {
+public:
     // Билдер
     virtual ISequenceBuilder<T>* CreateBuilder() const = 0;
 
@@ -37,6 +37,8 @@ public:
 
     // Операторы
     virtual const T& operator[](int index) const = 0;
+    bool operator==(const Sequence<T>& other) const;
+    bool operator!=(const Sequence<T>& other) const;
 
     // Деструктор
     virtual ~Sequence() {};

@@ -1,7 +1,9 @@
 #pragma once
 
 #include <algorithm>
+
 #include "DynamicArray.hpp"
+
 
 // Конструкторы и деструктор
 template <class T>
@@ -24,12 +26,12 @@ DynamicArray<T>::DynamicArray(T* items, int count) : DynamicArray(count) {
 }
 
 template <class T>
-DynamicArray<T>::DynamicArray(const DynamicArray &other) : DynamicArray(other.size) {
+DynamicArray<T>::DynamicArray(const DynamicArray& other) : DynamicArray(other.size) {
     std::copy(other.data, other.data + size, this->data);
 }
 
 template <class T>
-DynamicArray<T>::DynamicArray(DynamicArray &&other) noexcept : data(other.data), size(other.size) {
+DynamicArray<T>::DynamicArray(DynamicArray&& other) noexcept : data(other.data), size(other.size) {
     other.data = nullptr;
     other.size = 0;
 }
@@ -84,7 +86,7 @@ void DynamicArray<T>::Resize(int new_size) {
 
 // Операторы
 template <class T>
-DynamicArray<T>& DynamicArray<T>::operator=(const DynamicArray<T> &other) {
+DynamicArray<T>& DynamicArray<T>::operator=(const DynamicArray<T>& other) {
     if (this != &other) {
         this->size = other.size;
 
@@ -99,7 +101,7 @@ DynamicArray<T>& DynamicArray<T>::operator=(const DynamicArray<T> &other) {
 }
 
 template <class T>
-DynamicArray<T>& DynamicArray<T>::operator=(DynamicArray<T> &&other) noexcept {
+DynamicArray<T>& DynamicArray<T>::operator=(DynamicArray<T>&& other) noexcept {
     if (this != &other) {
         delete[] this->data;
         this->data = other.data;

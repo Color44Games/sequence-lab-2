@@ -14,7 +14,7 @@ const T& Sequence<T>::GetFirst() const {
 
 template <class T>
 const T& Sequence<T>::GetLast() const {
-    if (this->GetLength() == 0){
+    if (this->GetLength() == 0) {
         throw EmptyCollectionError("GetLast error: empty collection is given");
     }
     return this->Get(this->GetLength() - 1);
@@ -64,7 +64,7 @@ Sequence<T>* Sequence<T>::Map(T (*func)(T)) const {
     ISequenceBuilder<T>* builder = this->CreateBuilder();
     IEnumerator<T>* en = this->GetEnumerator();
 
-    while (en->MoveNext()){
+    while (en->MoveNext()) {
         builder->Append(func(en->GetCurrent()));
     }
 
@@ -99,11 +99,31 @@ T2 Sequence<T>::Reduce(T2 (*func)(T2, T), T initial) const {
     T2 accum = initial;
     IEnumerator<T>* en = this->GetEnumerator();
 
-    while(en->MoveNext()) {
+    while (en->MoveNext()) {
         accum = func(accum, en->GetCurrent());
     }
 
     delete en;
-    
+
     return accum;
+}
+
+// Операторы
+template <class T>
+bool Sequence<T>::operator==(const Sequence<T>& other) const {
+    if (this->GetLength() != other.GetLength()) {
+        return false;
+    }
+
+    for (int i = 0; i < this->GetLength(); i++) {
+        if (this->Get(i) != other.Get(i)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+template <class T>
+bool Sequence<T>::operator!=(const Sequence<T>& other) const {
+    return !(*this == other);
 }

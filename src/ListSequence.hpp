@@ -1,7 +1,8 @@
 #pragma once
 
-#include "Sequence.hpp"
 #include "LinkedList.hpp"
+#include "Sequence.hpp"
+
 
 template <class T>
 class ListSequence : public Sequence<T> {
@@ -13,7 +14,7 @@ public:
     ListSequence();
     ListSequence(T* items, int count);
     ListSequence(const ListSequence<T>& list);
-    ListSequence(ListSequence<T> &&other) noexcept = default;
+    ListSequence(ListSequence<T>&& other) noexcept = default;
     ~ListSequence();
 
     // Sequence override
@@ -29,7 +30,7 @@ public:
     IEnumerator<T>* GetEnumerator() const override;
 
     // Оператор
-    ListSequence<T>& operator=(ListSequence<T> &&other) noexcept = default;
+    ListSequence<T>& operator=(ListSequence<T>&& other) noexcept = default;
 
 protected:
     virtual ListSequence<T>* Instance() = 0;

@@ -1,13 +1,14 @@
 #pragma once
 
-#include "Sequence.hpp"
 #include "DynamicArray.hpp"
+#include "Sequence.hpp"
+
 
 template <class T>
-class ArraySequence: public Sequence<T> {
+class ArraySequence : public Sequence<T> {
 protected:
-    int size;               // Текущий размер
-    DynamicArray<T> data;   // data.size - максимальная вместимость
+    int size;              // Текущий размер
+    DynamicArray<T> data;  // data.size - максимальная вместимость
 
 public:
     class Enumerator : public IEnumerator<T> {
@@ -42,8 +43,8 @@ public:
     ArraySequence();
     explicit ArraySequence(int count);
     ArraySequence(T* items, int count);
-    ArraySequence(const ArraySequence<T> &other);
-    ArraySequence(ArraySequence<T> &&other) noexcept = default;
+    ArraySequence(const ArraySequence<T>& other);
+    ArraySequence(ArraySequence<T>&& other) noexcept = default;
     ~ArraySequence();
 
     // Sequence override
@@ -60,7 +61,7 @@ public:
     IEnumerator<T>* GetEnumerator() const override;
 
     // Оператор
-    ArraySequence<T>& operator=(ArraySequence<T> &&other) noexcept = default;
+    ArraySequence<T>& operator=(ArraySequence<T>&& other) noexcept = default;
 
 protected:
     virtual ArraySequence<T>* Instance() = 0;
