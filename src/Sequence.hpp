@@ -16,7 +16,7 @@ public:
     int GetLength() const override = 0;
     virtual const T& GetFirst() const;
     virtual const T& GetLast() const;
-    virtual Sequence<T>* GetSubsequence(int start_index, int end_index) const = 0;
+    virtual Sequence<T>* GetSubsequence(int start_index, int end_index) const;
 
     // Виртуальные конструкторы из ICollection
     Sequence<T>* CreateEmpty() const override = 0;
@@ -26,7 +26,7 @@ public:
     virtual Sequence<T>* Append(T item) = 0;
     virtual Sequence<T>* Prepend(T item) = 0;
     virtual Sequence<T>* InsertAt(T item, int index) = 0;
-    virtual Sequence<T>* Concat(const Sequence<T>& list) const = 0;
+    virtual Sequence<T>* Concat(const Sequence<T>& other) const;
 
     // Map, where, reduce
     virtual Sequence<T>* Map(T (*func)(T)) const;

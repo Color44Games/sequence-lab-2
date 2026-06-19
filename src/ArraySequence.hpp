@@ -27,7 +27,7 @@ public:
         }
 
         const T& GetCurrent() const override {
-            if (this->curr_index < 0 || this->curr_index > this->seq->GetLength()) {
+            if (this->curr_index < 0 || this->curr_index >= this->seq->GetLength()) {
                 throw IndexOutOfRange("Enumerator error: index out of range");
             }
             return this->seq->Get(curr_index);
@@ -51,11 +51,9 @@ public:
     int GetLength() const override;
     const T& GetFirst() const override;
     const T& GetLast() const override;
-    Sequence<T>* GetSubsequence(int start_index, int end_index) const override;
     Sequence<T>* Append(T item) override;
     Sequence<T>* Prepend(T item) override;
     Sequence<T>* InsertAt(T item, int index) override;
-    Sequence<T>* Concat(const Sequence<T>& list) const override;
 
     // Геттеры
     int GetCapacity() const;

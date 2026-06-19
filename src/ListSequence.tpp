@@ -37,25 +37,6 @@ const T& ListSequence<T>::GetLast() const {
 }
 
 template <class T>
-Sequence<T>* ListSequence<T>::GetSubsequence(int start_index, int end_index) const {
-    if (start_index < 0 || end_index >= this->data.GetLength() || start_index > end_index) {
-        throw IndexOutOfRange("GetSubsequence error: invalid indexes range");
-    }
-
-    int new_size = end_index - start_index + 1;
-    ISequenceBuilder<T>* builder = this->CreateBuilder();
-
-    for (int i = 0; i < new_size; i++) {
-        builder->Append(this->data.Get(start_index + i));
-    }
-
-    Sequence<T>* sub_sequence = builder->Build();
-    delete builder;
-
-    return sub_sequence;
-}
-
-template <class T>
 Sequence<T>* ListSequence<T>::Append(T item) {
     return Instance()->AppendInternal(item);
 }
@@ -68,24 +49,6 @@ Sequence<T>* ListSequence<T>::Prepend(T item) {
 template <class T> 
 Sequence<T>* ListSequence<T>::InsertAt(T item, int index) {
     return Instance()->InsertAtInternal(item, index);
-}
-
-template <class T>
-Sequence<T>* ListSequence<T>::Concat(const Sequence<T>& other) const {
-    ISequenceBuilder<T>* builder = this->CreateBuilder();
-
-    for (int i = 0; i < this->GetLength(); i++) {
-        builder->Append(this->Get(i));
-    }
-
-    for (int i = 0; i < other.GetLength(); i++) {
-        builder->Append(other.Get(i));
-    }
-
-    Sequence<T>* result = builder->Build();
-    delete builder;
-
-    return result;
 }
 
 // Геттер

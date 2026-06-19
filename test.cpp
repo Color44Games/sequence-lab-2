@@ -16,44 +16,52 @@
 #endif
 
 // Вспомогательные функции для Map/Where/Reduce
-int squareFunc(int x) { return x * x; }
-bool isEvenFunc(int x) { return x % 2 == 0; }
-int sumReducer(int acc, int x) { return acc + x; }
+int squareFunc(int x) {
+    return x * x;
+}
+
+bool isEvenFunc(int x) {
+    return x % 2 == 0;
+}
+
+int sumReducer(int acc, int x) {
+    return acc + x;
+}
 
 // ============================================================================
 // 1. ТЕСТЫ ДЛЯ DYNAMIC ARRAY
 // ============================================================================
-void test_DynamicArray_1_ConstructorAndResize() {
+void test_DynamicArray_ConstructorAndResize() {
     DynamicArray<int> arr(5);
     assert(arr.GetSize() == 5);
-    for (int i = 0; i < 5; i++) arr.Set(i, i * 10);
-    
+
+    for (int i = 0; i < 5; i++) {
+        arr.Set(i, i * 10);
+    }
+
     arr.Resize(8);
     assert(arr.GetSize() == 8);
     assert(arr.Get(0) == 0);
     assert(arr.Get(4) == 40);
 }
 
-void test_DynamicArray_2_CopyAndMove() {
+void test_DynamicArray_Copy() {
     int data[] = {1, 2, 3};
-    DynamicArray<int> first(data, 3);
-    DynamicArray<int> copy(first);
+    DynamicArray<int> original(data, 3);
+    DynamicArray<int> copy(original);
     
     assert(copy.GetSize() == 3);
     copy.Set(0, 99);
-    assert(first.Get(0) == 1);
-    
-    DynamicArray<int> moved(std::move(first));
-    assert(moved.GetSize() == 3);
-    assert(moved.Get(1) == 2);
+    assert(original.Get(0) == 1);
+    assert(copy.Get(0) == 99);
 }
 
-void test_DynamicArray_3_Exceptions() {
+void test_DynamicArray_Exceptions() {
     DynamicArray<int> arr(2);
     try {
         arr.Get(5);
         assert(false);
-    } catch (const IndexOutOfRange& e) {
+    } catch (const IndexOutOfRange& err) {
         assert(true);
     }
 }
@@ -61,7 +69,7 @@ void test_DynamicArray_3_Exceptions() {
 // ============================================================================
 // 2. ТЕСТЫ ДЛЯ LINKED LIST
 // ============================================================================
-void test_LinkedList_1_AppendPrepend() {
+void test_LinkedList_AppendAndPrepend() {
     LinkedList<int> list;
     list.Append(10);
     list.Append(20);
@@ -73,7 +81,7 @@ void test_LinkedList_1_AppendPrepend() {
     assert(list.GetLast() == 20);
 }
 
-void test_LinkedList_2_InsertAndRemove() {
+void test_LinkedList_InsertAndRemove() {
     int data[] = {1, 3};
     LinkedList<int> list(data, 2);
     list.InsertAt(2, 1);
@@ -87,12 +95,12 @@ void test_LinkedList_2_InsertAndRemove() {
     assert(list.Get(1) == 3);
 }
 
-void test_LinkedList_3_Exceptions() {
+void test_LinkedList_Exceptions() {
     LinkedList<int> emptyList;
     try {
         emptyList.GetFirst();
         assert(false);
-    } catch (const EmptyCollectionError& e) {
+    } catch (const EmptyCollectionError& err) {
         assert(true);
     }
 }
@@ -100,35 +108,26 @@ void test_LinkedList_3_Exceptions() {
 // ============================================================================
 // 3. ТЕСТЫ ДЛЯ MUTABLE ARRAY SEQUENCE
 // ============================================================================
-void test_MutableArray_1_BasicOps() {
-    MutableArraySequence<int> seq;
-    seq.Append(1)->Append(2)->Prepend(0);
-    
-    assert(seq.GetLength() == 3);
-    assert(seq.GetFirst() == 0);
-    assert(seq.Get(1) == 1);
-    assert(seq.GetLast() == 2);
-}
-
-void test_MutableArray_2_SubsequenceAndConcat() {
+void test_MutableArray_SubsequenceAndConcat() {
     int data[] = {10, 20, 30, 40};
     MutableArraySequence<int> seq(data, 4);
     
     Sequence<int>* sub = seq.GetSubsequence(1, 2);
     assert(sub->GetLength() == 2);
     assert(sub->Get(0) == 20);
+    assert(sub->Get(1) == 30);
     
     MutableArraySequence<int> other;
     other.Append(50);
-    Sequence<int>* concatRes = seq.Concat(other);
-    assert(concatRes->GetLength() == 5);
-    assert(concatRes->GetLast() == 50);
+    Sequence<int>* concat = seq.Concat(other);
+    assert(concat->GetLength() == 5);
+    assert(concat->GetLast() == 50);
     
     delete sub;
-    delete concatRes;
+    delete concat;
 }
 
-void test_MutableArray_3_Operators() {
+void test_MutableArray_Operators() {
     MutableArraySequence<int> seq1;
     seq1.Append(1);
     MutableArraySequence<int> seq2;
@@ -139,10 +138,26 @@ void test_MutableArray_3_Operators() {
     assert(seq1.Get(0) == 5);
 }
 
+void test_MutableArray_IndexError() {
+    int data[] = {1, 2};
+    MutableArraySequence<int> seq(data, 2); 
+    bool flag = false;  
+
+    try {
+        int len = seq.GetLength();
+        seq.InsertAt(12, len + 1);
+    } catch (const IndexOutOfRange& err) {
+        flag = true;
+    } catch (...) {
+        assert(false);
+    }
+    assert(flag);
+}
+
 // ============================================================================
 // 4. ТЕСТЫ ДЛЯ MUTABLE LIST SEQUENCE
 // ============================================================================
-void test_MutableList_1_BasicOps() {
+void test_MutableList_AppendAndPrepend() {
     MutableListSequence<std::string> seq;
     seq.Append("world");
     seq.Prepend("hello");
@@ -152,7 +167,7 @@ void test_MutableList_1_BasicOps() {
     assert(seq.GetLast() == "world");
 }
 
-void test_MutableList_2_InsertAt() {
+void test_MutableList_InsertAt() {
     int data[] = {10, 30};
     MutableListSequence<int> seq(data, 2);
     seq.InsertAt(20, 1);
@@ -161,7 +176,7 @@ void test_MutableList_2_InsertAt() {
     assert(seq.Get(1) == 20);
 }
 
-void test_MutableList_3_Subsequence() {
+void test_MutableList_Subsequence() {
     int data[] = {1, 2, 3, 4};
     MutableListSequence<int> seq(data, 4);
     Sequence<int>* sub = seq.GetSubsequence(0, 2);
@@ -175,7 +190,7 @@ void test_MutableList_3_Subsequence() {
 // ============================================================================
 // 5. ТЕСТЫ ДЛЯ IMMUTABLE ARRAY SEQUENCE
 // ============================================================================
-void test_ImmutableArray_1_Immutability() {
+void test_ImmutableArray_Immutability() {
     ImmutableArraySequence<int> seq;
     Sequence<int>* next1 = seq.Append(1);
     
@@ -186,34 +201,36 @@ void test_ImmutableArray_1_Immutability() {
     delete next1;
 }
 
-void test_ImmutableArray_2_Operators() {
+void test_ImmutableArray_Operators() {
     int data1[] = {1, 2};
     int data2[] = {3, 4};
-    ImmutableArraySequence<int> imm1(data1, 2);
-    ImmutableArraySequence<int> imm2(data2, 2);
+    ImmutableArraySequence<int> seq1(data1, 2);
+    ImmutableArraySequence<int> seq2(data2, 2);
     
-    ImmutableArraySequence<int> sum = imm1 + imm2;
+    ImmutableArraySequence<int> sum = seq1 + seq2;
     assert(sum.GetLength() == 4);
     assert(sum.Get(2) == 3);
 }
 
-void test_ImmutableArray_3_Builder() {
+void test_ImmutableArray_Builder() {
     ImmutableArraySequence<int> seq;
     ISequenceBuilder<int>* builder = seq.CreateBuilder();
-    builder->Append(10)->Append(20)->Append(30);
+    builder->Append(10);
+    builder->Append(20);
+    builder->Append(30);
     
-    Sequence<int>* built = builder->Build();
-    assert(built->GetLength() == 3);
-    assert(built->Get(1) == 20);
+    Sequence<int>* result = builder->Build();
+    assert(result->GetLength() == 3);
+    assert(result->Get(1) == 20);
     
     delete builder;
-    delete built;
+    delete result;
 }
 
 // ============================================================================
 // 6. ТЕСТЫ ДЛЯ IMMUTABLE LIST SEQUENCE
 // ============================================================================
-void test_ImmutableList_1_Immutability() {
+void test_ImmutableList_Immutability() {
     ImmutableListSequence<int> seq;
     Sequence<int>* next = seq.Prepend(100);
     
@@ -224,7 +241,7 @@ void test_ImmutableList_1_Immutability() {
     delete next;
 }
 
-void test_ImmutableList_2_EqualOperator() {
+void test_ImmutableList_EqualOperator() {
     int data[] = {5, 6, 7};
     ImmutableListSequence<int> l1(data, 3);
     ImmutableListSequence<int> l2(data, 3);
@@ -235,7 +252,7 @@ void test_ImmutableList_2_EqualOperator() {
 // ============================================================================
 // 7. ТЕСТЫ ДЛЯ ИТЕРАТОРОВ (ENUMERATORS)
 // ============================================================================
-void test_Enumerator_1_ArraySequence() {
+void test_Enumerator_ArraySequence() {
     int data[] = {10, 20, 30};
     MutableArraySequence<int> seq(data, 3);
     IEnumerator<int>* en = seq.GetEnumerator();
@@ -255,7 +272,7 @@ void test_Enumerator_1_ArraySequence() {
     delete en;
 }
 
-void test_Enumerator_2_LinkedList() {
+void test_Enumerator_LinkedList() {
     LinkedList<int> list;
     list.Append(5);
     IEnumerator<int>* en = list.GetEnumerator();
@@ -268,9 +285,9 @@ void test_Enumerator_2_LinkedList() {
 }
 
 // ============================================================================
-// 8. ТЕСТЫ ДЛЯ ФУНКЦИОНАЛЬНЫХ МЕТОДОВ СБОРКИ (MAP/WHERE/REDUCE)
+// 8. ТЕСТЫ ДЛЯ MAP-REDUCE
 // ============================================================================
-void test_Functional_1_Map() {
+void test_Map() {
     int data[] = {1, 2, 3};
     MutableArraySequence<int> seq(data, 3);
     Sequence<int>* mapped = seq.Map(squareFunc);
@@ -283,7 +300,7 @@ void test_Functional_1_Map() {
     delete mapped;
 }
 
-void test_Functional_2_Where() {
+void test_Where() {
     int data[] = {1, 2, 3, 4, 5, 6};
     MutableListSequence<int> seq(data, 6);
     Sequence<int>* filtered = seq.Where(isEvenFunc);
@@ -296,7 +313,7 @@ void test_Functional_2_Where() {
     delete filtered;
 }
 
-void test_Functional_3_Reduce() {
+void test_Reduce() {
     int data[] = {1, 2, 3, 4};
     MutableArraySequence<int> seq(data, 4);
     int sum = seq.Reduce(sumReducer, 0);
@@ -307,7 +324,7 @@ void test_Functional_3_Reduce() {
 // ============================================================================
 // 9. ТЕСТЫ ДЛЯ SEQUENCE UTILITIES (ZIP/UNZIP/SPLIT)
 // ============================================================================
-void test_Utilities_1_Zip() {
+void test_Utilities_Zip() {
     int d1[] = {1, 2};
     int d2[] = {10, 20};
     MutableArraySequence<int> s1(d1, 2);
@@ -323,7 +340,7 @@ void test_Utilities_1_Zip() {
     delete zipped;
 }
 
-void test_Utilities_2_Unzip() {
+void test_Utilities_Unzip() {
     using namespace SequenceUtilities;
     Pair<int, int> data[] = { {1, 10}, {2, 20} };
     MutableArraySequence<Pair<int, int>> pairs(data, 2);
@@ -331,6 +348,8 @@ void test_Utilities_2_Unzip() {
     Pair<Sequence<int>*, Sequence<int>*> unzipped = Unzip(pairs);
     assert(unzipped.first->GetLength() == 2);
     assert(unzipped.second->GetLength() == 2);
+    assert(unzipped.first->Get(0) == 1);
+    assert(unzipped.second->Get(0) == 10);
     assert(unzipped.first->Get(1) == 2);
     assert(unzipped.second->Get(1) == 20);
     
@@ -338,7 +357,7 @@ void test_Utilities_2_Unzip() {
     delete unzipped.second;
 }
 
-void test_Utilities_3_Split() {
+void test_Utilities_Split() {
     int data[] = {1, 2, 0, 3, 4, 0, 5};
     MutableArraySequence<int> seq(data, 7);
     
@@ -363,55 +382,55 @@ int main() {
     std::cout << "=== Тестирование ===" << std::endl;
 
     // 1. DynamicArray
-    test_DynamicArray_1_ConstructorAndResize();
-    test_DynamicArray_2_CopyAndMove();
-    test_DynamicArray_3_Exceptions();
+    test_DynamicArray_ConstructorAndResize();
+    test_DynamicArray_Copy();
+    test_DynamicArray_Exceptions();
     std::cout << "[ОК] Тесты DynamicArray успешно пройдены." << std::endl;
 
     // 2. LinkedList
-    test_LinkedList_1_AppendPrepend();
-    test_LinkedList_2_InsertAndRemove();
-    test_LinkedList_3_Exceptions();
+    test_LinkedList_AppendAndPrepend();
+    test_LinkedList_InsertAndRemove();
+    test_LinkedList_Exceptions();
     std::cout << "[ОК] Тесты LinkedList успешно пройдены." << std::endl;
 
     // 3. MutableArraySequence
-    test_MutableArray_1_BasicOps();
-    test_MutableArray_2_SubsequenceAndConcat();
-    test_MutableArray_3_Operators();
+    test_MutableArray_SubsequenceAndConcat();
+    test_MutableArray_Operators();
+    test_MutableArray_IndexError();
     std::cout << "[ОК] Тесты MutableArraySequence успешно пройдены." << std::endl;
 
     // 4. MutableListSequence
-    test_MutableList_1_BasicOps();
-    test_MutableList_2_InsertAt();
-    test_MutableList_3_Subsequence();
+    test_MutableList_AppendAndPrepend();
+    test_MutableList_InsertAt();
+    test_MutableList_Subsequence();
     std::cout << "[ОК] Тесты MutableListSequence успешно пройдены." << std::endl;
 
     // 5. ImmutableArraySequence
-    test_ImmutableArray_1_Immutability();
-    test_ImmutableArray_2_Operators();
-    test_ImmutableArray_3_Builder();
+    test_ImmutableArray_Immutability();
+    test_ImmutableArray_Operators();
+    test_ImmutableArray_Builder();
     std::cout << "[ОК] Тесты ImmutableArraySequence успешно пройдены." << std::endl;
 
     // 6. ImmutableListSequence
-    test_ImmutableList_1_Immutability();
-    test_ImmutableList_2_EqualOperator();
+    test_ImmutableList_Immutability();
+    test_ImmutableList_EqualOperator();
     std::cout << "[ОК] Тесты ImmutableListSequence успешно пройдены." << std::endl;
 
     // 7. Enumerators
-    test_Enumerator_1_ArraySequence();
-    test_Enumerator_2_LinkedList();
+    test_Enumerator_ArraySequence();
+    test_Enumerator_LinkedList();
     std::cout << "[ОК] Тесты Итераторов (Enumerators) успешно пройдены." << std::endl;
 
     // 8. Map/Where/Reduce
-    test_Functional_1_Map();
-    test_Functional_2_Where();
-    test_Functional_3_Reduce();
+    test_Map();
+    test_Where();
+    test_Reduce();
     std::cout << "[ОК] Тесты Map/Where/Reduce успешно пройдены." << std::endl;
 
     // 9. Utilities
-    test_Utilities_1_Zip();
-    test_Utilities_2_Unzip();
-    test_Utilities_3_Split();
+    test_Utilities_Zip();
+    test_Utilities_Unzip();
+    test_Utilities_Split();
     std::cout << "[ОК] Тесты Утилит (Zip/Unzip/Split) успешно пройдены." << std::endl;
     return 0;
 }

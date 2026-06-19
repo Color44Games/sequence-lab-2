@@ -19,7 +19,7 @@ template <class T>
 ArraySequence<T>::ArraySequence(T* items, int count) : size(count), data(items, count) {}
 
 template <class T>
-ArraySequence<T>::ArraySequence(const ArraySequence &other) : size(other.GetLength()), data(other.data) {}
+ArraySequence<T>::ArraySequence(const ArraySequence &other) : size(other.size), data(other.data) {}
 
 template <class T>
 ArraySequence<T>::~ArraySequence() {}
@@ -55,25 +55,6 @@ const T& ArraySequence<T>::GetLast() const {
 }
 
 template <class T>
-Sequence<T>* ArraySequence<T>::GetSubsequence(int start_index, int end_index) const {
-    if (start_index < 0 || end_index >= this->GetLength() || start_index > end_index) {
-        throw IndexOutOfRange("GetSubsequence error: invalid indexes range");
-    }
-
-    int new_size = end_index - start_index + 1;
-    ISequenceBuilder<T>* builder = this->CreateBuilder();
-
-    for (int i = 0; i < new_size; i++) {
-        builder->Append(this->data.Get(start_index + i));
-    }
-
-    Sequence<T>* sub_sequence = builder->Build();
-    delete builder;
-
-    return sub_sequence;
-}
-
-template <class T>
 Sequence<T>* ArraySequence<T>::Append(T item) {
     return this->Instance()->AppendInternal(item);
 }
@@ -86,24 +67,6 @@ Sequence<T>* ArraySequence<T>::Prepend(T item) {
 template <class T>
 Sequence<T>* ArraySequence<T>::InsertAt(T item, int index) {
     return this->Instance()->InsertAtInternal(item, index);
-}
-
-template <class T>
-Sequence<T>* ArraySequence<T>::Concat(const Sequence<T>& list) const {
-    ISequenceBuilder<T>* builder = this->CreateBuilder();
-
-    for (int i = 0; i < this->GetLength(); i++) {
-        builder->Append(this->Get(i));
-    }
-
-    for (int i = 0; i < list.GetLength(); i++) {
-        builder->Append(list.Get(i));
-    }
-
-    Sequence<T>* result = builder->Build();
-    delete builder;
-
-    return result;
 }
 
 // Геттеры

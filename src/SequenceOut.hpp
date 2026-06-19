@@ -8,7 +8,7 @@ std::ostream& operator<<(std::ostream& os, const Sequence<T>& seq) {
     os << '[';
     
     bool first = true;
-    IEnumerator* en = seq.GetEnumerator();
+    IEnumerator<T>* en = seq.GetEnumerator();
 
     while (en->MoveNext()) {
         if (!first){

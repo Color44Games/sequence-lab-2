@@ -21,11 +21,9 @@ public:
     int GetLength() const override;
     const T& GetFirst() const override;
     const T& GetLast() const override;
-    Sequence<T>* GetSubsequence(int start_index, int end_index) const override;
     Sequence<T>* Append(T item) override;
     Sequence<T>* Prepend(T item) override;
     Sequence<T>* InsertAt(T item, int index) override;
-    Sequence<T>* Concat(const Sequence<T>& other) const override;
 
     // Геттер
     IEnumerator<T>* GetEnumerator() const override;

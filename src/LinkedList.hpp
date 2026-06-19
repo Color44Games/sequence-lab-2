@@ -65,8 +65,8 @@ public:
     LinkedList<T>* GetSubList(int start_index, int end_index) const;
     int GetLength() const;
     IEnumerator<T>* GetEnumerator() const override;
-    Node* GetHead();
-    Node* GetTail();
+    const Node* GetHead() const;
+    const Node* GetTail() const;
 
     // Операции
     void Append(T item);                       

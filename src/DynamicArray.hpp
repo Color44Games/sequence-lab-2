@@ -28,7 +28,7 @@ public:
         }
 
         const T& GetCurrent() const override {
-            if (this->curr_index < 0 || this->curr_index > this->arr->GetSize()) {
+            if (this->curr_index < 0 || this->curr_index >= this->arr->GetSize()) {
                 throw IndexOutOfRange("Enumerator error: index out of range");
             }
             return this->arr->data[this->curr_index];

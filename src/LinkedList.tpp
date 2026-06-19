@@ -49,21 +49,29 @@ LinkedList<T>::~LinkedList() {
 // Декомпозиция
 template <class T>
 const T& LinkedList<T>::GetFirst() const {
-    if (this->head == nullptr) throw EmptyCollectionError("GetFirst error: empty list");
+    if (this->head == nullptr) {
+        throw EmptyCollectionError("GetFirst error: empty list");
+    }
     return this->head->val;
 }
 
 template <class T>
 const T& LinkedList<T>::GetLast() const {
-    if (this->tail == nullptr) throw EmptyCollectionError("GetLast error: empty list");
+    if (this->tail == nullptr) {
+        throw EmptyCollectionError("GetLast error: empty list");
+    }
     return this->tail->val;
 }
 
 template <class T>
 const T& LinkedList<T>::Get(int index) const {
-    if (index < 0 || index >= this->size) throw ("Get error: index out of range");
+    if (index < 0 || index >= this->size) {
+        throw ("Get error: index out of range");
+    }
     Node* curr = this->head;
-    for (int i = 0; i < index; i++) curr = curr->next;
+    for (int i = 0; i < index; i++) {
+        curr = curr->next;
+    }
     return curr->val;
 }
 
@@ -102,12 +110,12 @@ IEnumerator<T>* LinkedList<T>::GetEnumerator() const {
 }
 
 template <class T>
-typename LinkedList<T>::Node* LinkedList<T>::GetHead() {
+const typename LinkedList<T>::Node* LinkedList<T>::GetHead() const {
     return this->head;
 }
 
 template <class T>
-typename LinkedList<T>::Node* LinkedList<T>::GetTail() {
+const typename LinkedList<T>::Node* LinkedList<T>::GetTail() const {
     return this->tail;
 }
 
