@@ -11,7 +11,7 @@ DynamicArray<T>::DynamicArray() : data(nullptr), size(0) {}
 
 template <class T>
 DynamicArray<T>::DynamicArray(int count) : size(count) {
-    if (size < 0) {
+    if (this->size < 0) {
         throw IndexOutOfRange("DynamicArray error: negative size");
     }
     this->data = (size > 0) ? new T[size]() : nullptr;
@@ -19,9 +19,6 @@ DynamicArray<T>::DynamicArray(int count) : size(count) {
 
 template <class T>
 DynamicArray<T>::DynamicArray(T* items, int count) : DynamicArray(count) {
-    if (size < 0) {
-        throw IndexOutOfRange("DynamicArray error: negative size");
-    }
     std::copy(items, items + count, this->data);
 }
 

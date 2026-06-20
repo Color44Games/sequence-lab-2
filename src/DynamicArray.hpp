@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cstddef>
-
 #include "Exceptions.hpp"
 #include "IEnumerable.hpp"
 

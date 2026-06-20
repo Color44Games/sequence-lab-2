@@ -8,7 +8,7 @@ template <class T>
 class ArraySequence : public Sequence<T> {
 protected:
     int size;              // Текущий размер
-    DynamicArray<T> data;  // data.size - максимальная вместимость
+    DynamicArray<T> data;  // data.size - вместимость
 
 public:
     class Enumerator : public IEnumerator<T> {

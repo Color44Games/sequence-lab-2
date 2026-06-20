@@ -59,6 +59,7 @@ public:
     MutableListSequence<T>& operator+=(const T& value);
     MutableListSequence<T>& operator+=(const MutableListSequence<T>& other);
 
+    // Collection override
     Sequence<T>* CreateEmpty() const override {
         return new MutableListSequence<T>();
     }

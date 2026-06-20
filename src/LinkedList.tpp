@@ -164,18 +164,18 @@ void LinkedList<T>::InsertAt(T item, int index) {
 
     Node* newNode = new Node{item, nullptr, nullptr};
 
-    Node* current = this->head;
+    Node* curr = this->head;
     for (int i = 0; i < index; i++) {
-        current = current->next;
+        curr = curr->next;
     }
 
-    Node* previous = current->prev;
+    Node* previous = curr->prev;
 
     previous->next = newNode;
     newNode->prev = previous;
 
-    newNode->next = current;
-    current->prev = newNode;
+    newNode->next = curr;
+    curr->prev = newNode;
 
     this->size++;
 }
@@ -195,7 +195,7 @@ T LinkedList<T>::RemoveAt(int index) {
         curr = curr->next;
     }
 
-    T removedVal = curr->val;
+    T removed = curr->val;
 
     if (curr->prev != nullptr) {
         curr->prev->next = curr->next;
@@ -212,7 +212,7 @@ T LinkedList<T>::RemoveAt(int index) {
     delete curr;
     this->size--;
 
-    return removedVal;
+    return removed;
 }
 
 template <class T>
