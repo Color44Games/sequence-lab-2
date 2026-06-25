@@ -186,7 +186,7 @@ T LinkedList<T>::RemoveAt(int index) {
         throw EmptyCollectionError("RemoveAt error: empty collection is given");
     }
 
-    if (index < 0 || index > this->size) {
+    if (index < 0 || index >= this->size) {
         throw IndexOutOfRange("RemoveAt error: index out of range");
     }
 
@@ -206,7 +206,7 @@ T LinkedList<T>::RemoveAt(int index) {
     if (curr->next != nullptr) {
         curr->next->prev = curr->prev;
     } else {
-        this->tail = curr;
+        this->tail = curr->prev;
     }
 
     delete curr;
