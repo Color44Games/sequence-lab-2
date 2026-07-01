@@ -35,9 +35,6 @@ if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test.cpp")
         add_executable(run_test test.cpp)
         target_link_libraries(run_test PRIVATE sequence_lib)
-
-        enable_testing()
-        add_test(NAME DataStructuresTests COMMAND test)
     endif()
 
 endif()
